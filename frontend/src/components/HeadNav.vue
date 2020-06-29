@@ -71,10 +71,14 @@
                         link: "my-info",
                         icon: "el-icon-suitcase"
                     }, {
-                        name: '信息被查询记录',
-                        link: "my-queried",
+                        name: '区块链地图查询',
+                        link: "map-query",
                         icon: "el-icon-document"
-                    },
+                    },{
+                        name: '地图维护记录',
+                        link: "block-chain",
+                        icon: "el-icon-document"
+                    }
                 ],
                 leftBarMenu2: [
                     {

@@ -14,6 +14,8 @@ import Query from './views/Query'
 import MyMerchant from './views/MyMerchant'
 import ElementUI from 'element-ui';
 import Demo from "./views/Demo";
+import MapQuery from "./views/MapQuery";
+import BlockChainShow from "./views/BlockChainShow";
 
 Vue.use(ElementUI);
 Vue.use(Router);
@@ -38,6 +40,8 @@ const router = new Router({
                 {path: '/my-own-platform', name: 'MyOwnPlatform', component: MyOwnPlatform},
                 {path: '/my-platform', name: 'MyPlatform', component: MyPlatform},
                 {path: '/my-queried', name: 'MyQueried', component: MyQueried},
+                {path: '/map-query', name: 'MapQuery', component: MapQuery},
+                {path: '/block-chain', name: 'BlockChainShow', component: BlockChainShow},
                 {path: '/query', name: "Query", component: Query},
                 {path: '/my-merchant', name: "MyMerchant", component: MyMerchant},
                 {path: '/my-own-platform/client', name: "MyOwnClient", component: MyOwnClient},
