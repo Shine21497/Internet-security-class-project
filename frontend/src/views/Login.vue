@@ -2,7 +2,7 @@
     <div class="login">
         <section class="form_container">
             <div class="manage_tip">
-                <span class="title">区块链借贷系统</span>
+                <span class="title">区块链智能交通地图系统</span>
             </div>
             <el-form :model="loginUser" :rules="rules" ref="loginForm" class="loginForm" label-width="80px">
                 <el-form-item label="用户ID" prop="name">
@@ -11,7 +11,7 @@
                 <el-form-item label="密码" prop="password" @keyup.enter.native="submitForm('loginForm')">
                     <el-input v-model="loginUser.password" placeholder="请输入密码" type="password"></el-input>
                 </el-form-item>
-                <el-form-item label="用户类型" prop="userType">
+                <!-- <el-form-item label="用户类型" prop="userType">
                     <el-select v-model="loginUser.userType" placeholder="借贷方">
                         <el-option
                                 v-for="item in options"
@@ -20,7 +20,7 @@
                                 :value="item.value">
                         </el-option>
                     </el-select>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登 录</el-button>
                 </el-form-item>
@@ -124,23 +124,23 @@
                         console.log(this.loginUser);
                         localStorage.setItem('userType', this.loginUser.userType);
                         if (this.loginUser.userType * 1 === 0) {
-                            this.$axios.post("/borrowers/login", js).then(res => {
-                                if (res.data.code * 1 === 0) {
+                            // this.$axios.post("/borrowers/login", js).then(res => {
+                            //     if (res.data.code * 1 === 0) {
                                     // 登录成功
                                     this.endTime = +new Date();
-
-                                    const token = res.data.data['access-token'];
-                                    console.log("res:", res.data, token);
+                                    const token = "access_token_test"
+                                    // const token = res.data.data['access-token'];
+                                    // console.log("res:", res.data, token);
                                     localStorage.setItem('eleToken', token);
                                     console.log("storage:", localStorage);
                                     this.$message({message: "登陆成功", type: "success"});
                                     this.$router.push("/my-platform");
-                                } else {
-                                    this.$message.error(res.data.msg);
-                                }
-                            }, err => {
-                                this.$message.error(err.message);
-                            });
+                                // } else {
+                                //     this.$message.error(res.data.msg);
+                                // }
+                            // }, err => {
+                            //     this.$message.error(err.message);
+                            // });
                         } else if (this.loginUser.userType * 1 === 1) {
                             this.$axios.post("/platforms/login", js).then(res => {
 
@@ -184,6 +184,7 @@
                     this.$message.error(err);
                     return false;
                 });
+                console.log("jump to another page")
             },
             isEmpty(value) {
                 return (

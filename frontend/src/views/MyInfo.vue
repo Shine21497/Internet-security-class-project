@@ -1,28 +1,46 @@
 <template>
+    
+    
+
+
     <div class="fillcontain">
+        
+        <!-- <createWindow :show.sync="dialogVisible" ></createWindow> -->
+        <createWindow :dialogVisible="dialogVisible" :dialogInfo="dialogInfo" @update:dialogVisible="dialogVisibles"></createWindow>
+        <!-- <mapInfo :dialogVisible="dialogVisible" :dialogInfo="dialogInfo" @update:dialogVisible="dialogVisibles"></mapInfo> -->
+
+
+
+
         <div style="margin: 20px;">
             <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
-                <el-breadcrumb-item>借贷方</el-breadcrumb-item>
-                <el-breadcrumb-item>我的个人信息</el-breadcrumb-item>
+                <el-breadcrumb-item>用户</el-breadcrumb-item>
+                <el-breadcrumb-item>我参与维护的地图</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div style="margin: 20px 0;"></div>
         <el-card style="margin: 20px;width: 100%;">
             <el-button @click="refresh">刷新</el-button>
+            <el-button @click.native="dialogVisible = true">维护地图</el-button>
             <div style="margin: 20px 0;"></div>
             <el-table
                     :data="tableData"
                     stripe
                     style="width: 100%">
                 <el-table-column
-                        prop="name"
-                        label="Name"
+                        prop="id"
+                        label="地图ID"
                         sortable>
                 </el-table-column>
                 <el-table-column
-                        prop="value"
-                        label="Value"
+                        prop="name"
+                        label="名称"
+                        sortable>
+                </el-table-column>
+                <el-table-column
+                        prop="state"
+                        label="状态"
                         sortable>
                 </el-table-column>
             </el-table>
@@ -31,47 +49,71 @@
 </template>
 
 <script>
+
+    import createWindow from '../components/CreateWindow'
+
     export default {
-        name: "MyInfo",
+        name: "MyPlatform",
         data() {
             return {
-                tableData:[],
+                tableData: [],
+                //控制弹窗 显示
+                dialogVisible: false,
+            　　　 //点击查看按钮  这条数据详细信息
+                dialogInfo:{},
             }
         },
         created() {
             this.getProfile();
         },
+        components: {
+            createWindow,
+        },
         methods: {
             getProfile() {
                 let js = {};
-                this.$axios.post("/borrowers/search-specific", js,
-                    {
-                        params: {access_token: localStorage.getItem('eleToken')}
-                    }).then(res => {
-                    console.log(res.data);
-                    if (res.data.code * 1 === 0) {
-                        this.tableData.value = [];
+                // this.$axios.post("/borrowers/search-platform", js,
+                //     {
+                //         params: {access_token: localStorage.getItem('eleToken')}
+                //     }).then(res => {
+                    // 登录成功
+                    // console.log("data:", res.data)
+                    // if (res.data.code * 1 === 0) {
+                        this.tableData = [];
                         this.$message({message: "查询成功", type: "success"});
-                        let data = res.data.data;
-                        this.tableData.push({name: "系统编号", value: data.id});
-                        this.tableData.push({name: "姓名", value:data.name});
-                        this.tableData.push({name: "身份证号", value:data.ID_card});
-                        this.tableData.push({name: "性别", value:data.gender==='male'?'男':'女'});
-                        this.tableData.push({name: "出生日期", value:data.birth_date});
-                        this.tableData.push({name: "地址", value:data.address});
-                        this.tableData.push({name: "手机号", value:data.phone});
-                        this.tableData.push({name: "银行卡号", value:data.card_number});
-                        console.log(this.tableData);
-                    } else {
-                        this.$message.error(res.data.msg);
-                    }
-                }, err => {
-                    this.$message.error(err.message);
-                });
+                        let test_data = [];
+                        
+                        test_data.push({id: "000001", name: "济事楼318", state: "维护中"});
+                        test_data.push({id: "000002", name: "电信学院地下车库", state: "确认区块"});
+                        // for (let i = 0; i < res.data.data.length; ++i) {
+                        for (let i = 0; i < test_data.length; ++i) {
+                            this.tableData.push({
+                                id: test_data[i].id,
+                                name: test_data[i].name,
+                                state: test_data[i].state
+                            });
+                        }
+                        // this.$router.push("/myfile");
+                    // } 
+                    // else {
+                //         this.$message.error(res.data.msg);
+                //     }
+                // }, err => {
+                //     this.$message.error(err.message);
+                // });
             },
             refresh() {
                 this.getProfile();
             },
+            create() {
+                console.log("Create a new map!");
+                // this.getProfile();
+                this.dialogVisible = true;
+                this.dialogInfo = {};    
+            },
+            dialogVisibles(v){
+                this.dialogVisible = v;
+            }
         }
     }
 </script>
@@ -83,4 +125,6 @@
         padding: 16px;
         box-sizing: border-box;
     }
+
+
 </style>
