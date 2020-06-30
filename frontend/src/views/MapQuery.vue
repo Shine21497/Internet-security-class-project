@@ -40,6 +40,7 @@
                         sortable>
                     <template slot-scope="scope">
                         <el-button @click="handleCheck(scope.row)" type="text" size="small">下载</el-button>
+                        <!-- <a class='download' :href='downloadhttp' download=""  title="下载">下载</a> -->
                     </template>
                 </el-table-column>
             </el-table>
@@ -77,12 +78,32 @@
                                 name: response.data[i].name,
                                 province: response.data[i].province,
                                 region: response.data[i].region,
+                                path: response.data[i].map_file_location_encryption,
                             });
                         }
                     })
             },
             handleCheck(row) {
-
+                console.log('row is: ', row);
+                var path = row.path;
+                  this.$axios({
+                        method:'get',
+                        params: {path: path},
+                        url:'/api/map/download',
+                        responseType:'blob',
+                        })
+                        .then((data) => {
+                        if (!data) {
+                        return
+                        }
+                        let url = window.URL.createObjectURL(data.data)
+                        let link = document.createElement('a')
+                        link.style.display = 'none'
+                        link.href = url
+                        link.setAttribute('download', 'map.txt')
+                        document.body.appendChild(link)
+                        link.click()
+                        })
             }
         }
     }

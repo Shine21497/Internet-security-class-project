@@ -30,16 +30,7 @@
         data() {
             return {
                 blocks: [
-                    {
-                        timestamp: "2019-9-8",
-                        head_hash: "assad",
-                        block_id: "13245"
-                    },
-                    {
-                        timestamp: "2019-10-8",
-                        head_hash: "assad",
-                        block_id: "13245"
-                    }
+                    
                 ]
             }
         },

@@ -189,6 +189,15 @@ router.post('/get_map', (req, res) => {
 
 
 
+router.get('/download', function(req, res, next) {
+
+    let filename = req.query.path
+    
+    res.download(filename)
+    
+})
+    
+
 
 
 
