@@ -2,35 +2,12 @@
     <div class="block">
         <el-container>
             <el-timeline>
-                <el-timeline-item timestamp="2018/4/12" placement="top">
+                <el-timeline-item v-for="block in blocks" :key="block.block_id" :timestamp="block.time_stamp" placement="top">
                     <el-card class="box-card">
                         <div slot="header" class="clearfix">
-                            <span>块高度：20879</span><br><br>
-                            <span>头哈希：jshadkjahdkj</span>
-                            <el-button style="float: right; padding: 3px 0" type="text">详情</el-button>
-                        </div>
-                        <div v-for="o in 4" :key="o" class="text item">
-                            {{'申请记录 ' + o }}
-                        </div>
-                    </el-card>
-                </el-timeline-item>
-                <el-timeline-item timestamp="2018/4/3" placement="top">
-                    <el-card class="box-card">
-                        <div slot="header" class="clearfix">
-                            <span>块高度：20879</span><br><br>
-                            <span>头哈希：jshadkjahdkj</span>
-                            <el-button style="float: right; padding: 3px 0" type="text">详情</el-button>
-                        </div>
-                        <div v-for="o in 4" :key="o" class="text item">
-                            {{'申请记录 ' + o }}
-                        </div>
-                    </el-card>
-                </el-timeline-item>
-                <el-timeline-item timestamp="2018/4/2" placement="top">
-                    <el-card class="box-card">
-                        <div slot="header" class="clearfix">
-                            <span>块高度：20879</span><br><br>
-                            <span>头哈希：jshadkjahdkj</span>
+                            <span>块高度：</span><span>{{block.block_id}}</span>
+                            <br><br>
+                            <span>头哈希：</span><span>{{block.head_hash}}</span>
                             <el-button style="float: right; padding: 3px 0" type="text">详情</el-button>
                         </div>
                         <div v-for="o in 4" :key="o" class="text item">
@@ -45,7 +22,31 @@
 
 <script>
     export default {
-        name: "BlockChainShow"
+        name: "BlockChainShow",
+        data() {
+            return {
+                blocks: [
+                    {
+                        timestamp: "2019-9-8",
+                        head_hash: "assad",
+                        block_id: "13245"
+                    },
+                    {
+                        timestamp: "2019-10-8",
+                        head_hash: "assad",
+                        block_id: "13245"
+                    }
+                ]
+            }
+        },
+        mounted () {
+            this.$axios
+                .get('/api/chain/all')
+                .then(response => {
+                    this.blocks = response.data
+                })
+        },
+
     }
 </script>
 
