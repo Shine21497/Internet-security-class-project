@@ -21,16 +21,21 @@ const sha256 = require('sha256');
 
 router.post('/upload', upload.any(), function(req, res, next) {
     console.log(req.files[0]);  // 上传的文件信息
+    var copyName = req.files[0].path.toString();
+    copyName = copyName.replace('\\','/')
+    copyName = './'+copyName
+    console.log('Copy Name is: ', copyName);
+
 
     var des_file = "./uploads/" + req.files[0].originalname;
-    fs.readFile( req.files[0].path, function (err, data) {
-        fs.writeFile(req.files[0].path, data, function (err) {
+    fs.readFile( copyName, function (err, data) {
+        fs.writeFile(copyName, data, function (err) {
             if( err ){
                 console.log( err );
             }else{
                 response = {
                     message:'File uploaded successfully',
-                    filename:req.files[0].path
+                    filename:copyName
                 };
                 console.log( response );
                 res.end( JSON.stringify( response ) );
@@ -104,6 +109,7 @@ router.post('/new_map', (req, res) => {
 
     //Load file and get the file hash
     var des_file = mapInfo.filename;
+    console.log('des_filename is: ', des_file);
     var file_content = fs.readFileSync(des_file, "utf8");
     var file_hash = sha256(file_content);
 
@@ -138,7 +144,14 @@ router.post('/new_map', (req, res) => {
 });
 
 
+function certificate(filename, hash){
+    console.log('begin to read');
+    var file_content = fs.readFileSync(filename, "utf8");
+    console.log('file content is: ', file_content);
 
+    var file_hash = sha256(file_content);
+    return file_hash==hash;
+}
 
 router.post('/get_map', (req, res) => {
 
@@ -155,13 +168,18 @@ router.post('/get_map', (req, res) => {
             var contentMapInfo = content.map_info;
     
             if (contentUserName == userName){
-                mapInfo = {
-                    province: contentMapInfo.province,
-                    region: contentMapInfo.region,
-                    name: contentMapInfo.name,
-                    date: allChainInfo[i].time_stamp,
-                };
-                lastResult.push(mapInfo);
+                path = contentMapInfo.map_file_location_encryption;
+                hash = contentMapInfo.map_file_hash;
+                console.log('path is: ', path);
+                if (certificate(path, hash)){    
+                    mapInfo = {
+                        province: contentMapInfo.province,
+                        region: contentMapInfo.region,
+                        name: contentMapInfo.name,
+                        date: allChainInfo[i].time_stamp,
+                    };
+                    lastResult.push(mapInfo);
+                }
             }
          }    
     }
