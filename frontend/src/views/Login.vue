@@ -83,9 +83,9 @@
                 this.$message.error('请先登录');
             }
             this.$notify({
-                title: '测试账户1(借贷方)',
+                title: '测试账户1',
                 dangerouslyUseHTMLString: true,
-                message: 'ID : 1042120<br>密码 : u0IPNY',
+                message: 'ID : 619850002<br>密码 : 123456',
                 duration: 15000,
                 type: 'warning'
             });
@@ -94,18 +94,10 @@
             this.$notify({
                 title: '测试账户2(平台方)',
                 dangerouslyUseHTMLString: true,
-                message: 'ID : 1105965<br>密码 : dLO21D',
+                message: 'ID : 123456<br>密码 : 123456',
                 duration: 15000,
                 type: 'success',
                 offset: 100,
-            });
-            this.$notify({
-                title: '测试账户3(资金方)',
-                dangerouslyUseHTMLString: true,
-                message: 'ID : 1052596<br>密码 : hGc318',
-                duration: 15000,
-                type: "info",
-                offset: 200,
             });
         },
         methods: {
@@ -124,24 +116,31 @@
                         console.log(this.loginUser);
                         localStorage.setItem('userType', this.loginUser.userType);
                         localStorage.setItem('userName', this.loginUser.name);
+                        var info = {
+                            userName: this.loginUser.name,
+                            password: this.loginUser.password,
+                        };
                         if (this.loginUser.userType * 1 === 0) {
-                            // this.$axios.post("/borrowers/login", js).then(res => {
-                            //     if (res.data.code * 1 === 0) {
-                                    // 登录成功
+                            this.$axios.post("/api/users/login", info).then(res => {
+                                
+                                console.log(res.data)
+                                if (res.data.status == "OK"){
                                     this.endTime = +new Date();
                                     const token = "access_token_test"
-                                    // const token = res.data.data['access-token'];
-                                    // console.log("res:", res.data, token);
+                                // const token = res.data.data['access-token'];
+                                // console.log("res:", res.data, token);
                                     localStorage.setItem('eleToken', token);
                                     console.log("storage:", localStorage);
                                     this.$message({message: "登陆成功", type: "success"});
-                                    this.$router.push("/my-platform");
-                                // } else {
-                                //     this.$message.error(res.data.msg);
-                                // }
-                            // }, err => {
-                            //     this.$message.error(err.message);
-                            // });
+                                    this.$router.push("/my-map");
+                                }else{
+                                    this.$message({message: "登陆失败，请检查密码与用户名", type: "warning"});
+                                }
+                                
+                            
+                            }, err => {
+                                this.$message.error(err.message);
+                            });
                         } else if (this.loginUser.userType * 1 === 1) {
                             this.$axios.post("/platforms/login", js).then(res => {
 

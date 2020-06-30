@@ -11,6 +11,22 @@ router.get('/udemo2', function(req, res, next) {
     res.send('respond with a resource' + chain.First("map1"));
 });
 
+
+router.post('/login', function(req, res, next) {
+    
+    var userName  = req.param('userName');
+    var password  = req.param('password');
+    
+    if (userName == '619850002' && password == '123456'){
+        res.send({status: "OK"});
+    }else if (userName == '123456' && password == '123456'){
+        res.send({status: "OK"});
+    }
+    res.send({status: "Error"});
+});
+
+
+
 //使用POST方法添加书籍
 router.post('/userpost', (req, res) => {
     const {error} = validateBook(req.body);
