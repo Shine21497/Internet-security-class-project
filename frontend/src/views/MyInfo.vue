@@ -43,6 +43,11 @@
                         label="状态"
                         sortable>
                 </el-table-column>
+                <el-table-column align="center" label="确认区块">
+                    <template slot-scope="scope">
+                        <el-button @click.prevent="confirm(scope.row,scope.$index)"> 确认 </el-button>
+                    </template>
+                </el-table-column>
             </el-table>
         </el-card>
     </div>
@@ -113,7 +118,11 @@
             },
             dialogVisibles(v){
                 this.dialogVisible = v;
-            }
+            },
+            confirm(row){
+            //   console.log(row)
+                row.state = "确认区块";
+            },
         }
     }
 </script>

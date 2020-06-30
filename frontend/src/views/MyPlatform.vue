@@ -24,8 +24,8 @@
                     stripe
                     style="width: 100%">
                 <el-table-column
-                        prop="id"
-                        label="地图ID"
+                        prop="region"
+                        label="区域"
                         sortable>
                 </el-table-column>
                 <el-table-column
@@ -38,6 +38,8 @@
                         label="状态"
                         sortable>
                 </el-table-column>
+                
+              
 
             </el-table>
         </el-card>
@@ -79,8 +81,8 @@
                         this.tableData = [];
                         this.$message({message: "查询成功", type: "success"});
                         let test_data = [];
-                        test_data.push({id: "000001", name: "济事楼318", state: "维护中"});
-                        test_data.push({id: "000002", name: "电信学院地下车库", state: "确认区块"});
+                        test_data.push({region: "上海", name: "济事楼318", state: "维护中"});
+                        test_data.push({region: "上海", name: "电信学院地下车库", state: "确认区块"});
                         // for (let i = 0; i < res.data.data.length; ++i) {
                         for (let i = 0; i < test_data.length; ++i) {
                             this.tableData.push({
@@ -109,7 +111,7 @@
             },
             dialogVisibles(v){
                 this.dialogVisible = v;
-            }
+            },
         }
     }
 </script>

@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var userdemo = require('./routes/userdemo')
+var map = require('./routes/map')
 
 var app = express();
 
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', userdemo);
+app.use('/map',map);
 
 app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
