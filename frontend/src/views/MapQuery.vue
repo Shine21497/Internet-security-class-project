@@ -4,8 +4,8 @@
             <el-form :inline="true" :model="formInline" class="demo-form-inline" >
                 <el-form-item label="所在省市">
                     <el-select v-model="formInline.province" placeholder="省市">
-                        <el-option label="上海" value="shanghai"></el-option>
-                        <el-option label="北京" value="beijing"></el-option>
+                        <el-option label="上海" value="上海"></el-option>
+                        <el-option label="北京" value="北京"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="地区名(部分)">
