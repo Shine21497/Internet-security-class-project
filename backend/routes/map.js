@@ -40,23 +40,37 @@ router.post('/upload', upload.any(), function(req, res, next) {
 
 router.post('/new_map', (req, res) => {
 
-    
-    name = req.param('name');
-    province = req.param('province');
-    region = req.param('region');
-    filepath = req.param('filepath');
-    filename = req.param('filename');
+
+    mapInfo  = req.param('mapInfo');
+    userName = req.param('userName');
+
+    // name = req.param('name');
+    // province = req.param('province');
+    // region = req.param('region');
+    // filepath = req.param('filepath');
+    // filename = req.param('filename');
     //0  未申请， 1 申请确认， 2 已确认
     state = 0;
 
     //Save to the MongoDB
 
+
+    // "chain", 
+    
+    // chainInfo = {   head_hash:hajd, block_id:1008,
+    //                 time_stamp:2019,
+    //                 father_hash:assad,  
+    //                 content:[{  user_info:{userid:xx, },
+    //                             map_info:{  province: province, 
+    //                                         area:region, 
+    //                                         name:name, 
+    //                                         map_file_location_encryption: filename}}]};
+
+
+
     data = {
-        name: name,
-        province: province,
-        region: region,
-        filepath: filepath,
-        filename: filename,
+        userName: userName,
+        mapInfo: mapInfo,
     }
 
 

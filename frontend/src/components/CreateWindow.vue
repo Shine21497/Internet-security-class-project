@@ -106,7 +106,12 @@ export default {
       //           .get('/api/users/udemo1')
       //           .then(response => (this.message = response.data));
       console.log('new map: ', this.new_map);
-      this.$axios.post('/api/map/new_map',this.new_map)
+      let userName = localStorage.getItem('userName');
+      let mapInfo = {
+        userName: userName,
+        mapInfo: this.new_map,
+      };
+      this.$axios.post('/api/map/new_map',mapInfo)
           .then(res=>{
                       console.log('res=>',res);            
                 });

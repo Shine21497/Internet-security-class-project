@@ -123,6 +123,7 @@
                         };
                         console.log(this.loginUser);
                         localStorage.setItem('userType', this.loginUser.userType);
+                        localStorage.setItem('userName', this.loginUser.name);
                         if (this.loginUser.userType * 1 === 0) {
                             // this.$axios.post("/borrowers/login", js).then(res => {
                             //     if (res.data.code * 1 === 0) {
