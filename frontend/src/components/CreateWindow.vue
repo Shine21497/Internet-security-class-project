@@ -113,8 +113,17 @@ export default {
       };
       this.$axios.post('/api/map/new_map',mapInfo)
           .then(res=>{
-                      console.log('res=>',res);            
+                      console.log('res=>',res);   
                 });
+      this.new_map = {
+                      name: "",
+                      province: "",
+                      region: "",
+                      filepath: '',
+                      filename: '',
+                    };         
+      this.$message("申请维护成功!");
+      this.cancelDialog()
     },
 
      handleRemove(file, fileList) {

@@ -44,6 +44,28 @@ function saveChainInfo(chainInfo){
     chain.Add("mapInfo", chainInfo);
 }
 
+function todayTime() {
+    var date = new Date();
+    var curYear = date.getFullYear();
+    var curMonth = date.getMonth() + 1;
+    var curDate = date.getDate();
+    if(curMonth<10){
+            curMonth = '0' + curMonth;
+    }
+    if(curDate<10){
+            curDate = '0' + curDate;
+    }    
+    var curHours = date.getHours();
+    if(curHours<10){
+        curHours = '0' + curHours;
+    }    
+    var curMinutes = date.getMinutes();
+    if (curMinutes<10){
+        curMinutes = '0' + curMinutes;
+    }
+    var curtime = curYear + '.' + curMonth + '.' + curDate +'  ' + curHours + ':' + curMinutes;
+    return curtime;
+}
 
 router.post('/new_map', (req, res) => {
 
@@ -53,6 +75,8 @@ router.post('/new_map', (req, res) => {
     
 
     //get time stamp
+    var time_stamp = todayTime();
+    console.log("time_stamp is: " , time_stamp);
     var date = new Date().getTime().toString();
 
     var allChainInfo = chain.All("mapInfo");
@@ -81,7 +105,7 @@ router.post('/new_map', (req, res) => {
     var chainInfo = {   
                     head_hash: head_hash, 
                     block_id: block_id,
-                    time_stamp: date,
+                    time_stamp: time_stamp,
                     father_hash: father_hash,  
                     content:[
                         { user_info:{userName: userName,},
@@ -106,6 +130,39 @@ router.post('/new_map', (req, res) => {
 });
 
 
+function saveChainInfo(chainInfo){
+    chain.Add("mapInfo", chainInfo);
+}
+
+
+router.post('/get_map', (req, res) => {
+
+    var userName  = req.param('userName');
+    
+    
+    var allChainInfo = chain.All("mapInfo");
+    var lastResult = []
+    if (allChainInfo != null){
+        for (i = 0; i < allChainInfo.length; i++) { 
+            var content = allChainInfo[i].content[0];
+            var contentUserName = content.user_info.userName;
+            
+            var contentMapInfo = content.map_info;
+    
+            if (contentUserName == userName){
+                mapInfo = {
+                    province: contentMapInfo.province,
+                    region: contentMapInfo.region,
+                    name: contentMapInfo.name,
+                    date: allChainInfo[i].time_stamp,
+                };
+                lastResult.push(mapInfo);
+            }
+         }    
+    }
+    
+    return res.json(lastResult).end();
+});
 
 
 

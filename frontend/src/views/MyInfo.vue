@@ -29,8 +29,8 @@
                     stripe
                     style="width: 100%">
                 <el-table-column
-                        prop="id"
-                        label="地图ID"
+                        prop="province"
+                        label="省市"
                         sortable>
                 </el-table-column>
                 <el-table-column
@@ -39,15 +39,15 @@
                         sortable>
                 </el-table-column>
                 <el-table-column
-                        prop="state"
-                        label="状态"
+                        prop="date"
+                        label="创建时间"
                         sortable>
                 </el-table-column>
-                <el-table-column align="center" label="确认区块">
+                <!-- <el-table-column align="center" label="确认区块">
                     <template slot-scope="scope">
                         <el-button @click.prevent="confirm(scope.row,scope.$index)"> 确认 </el-button>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
         </el-card>
     </div>
@@ -76,36 +76,28 @@
         },
         methods: {
             getProfile() {
-                let js = {};
-                // this.$axios.post("/borrowers/search-platform", js,
-                //     {
-                //         params: {access_token: localStorage.getItem('eleToken')}
-                //     }).then(res => {
-                    // 登录成功
-                    // console.log("data:", res.data)
-                    // if (res.data.code * 1 === 0) {
-                        this.tableData = [];
-                        this.$message({message: "查询成功", type: "success"});
-                        let test_data = [];
-                        
-                        test_data.push({id: "000001", name: "济事楼318", state: "维护中"});
-                        test_data.push({id: "000002", name: "电信学院地下车库", state: "确认区块"});
-                        // for (let i = 0; i < res.data.data.length; ++i) {
-                        for (let i = 0; i < test_data.length; ++i) {
-                            this.tableData.push({
-                                id: test_data[i].id,
-                                name: test_data[i].name,
-                                state: test_data[i].state
-                            });
-                        }
-                        // this.$router.push("/myfile");
-                    // } 
-                    // else {
-                //         this.$message.error(res.data.msg);
-                //     }
-                // }, err => {
-                //     this.$message.error(err.message);
-                // });
+                let userName = localStorage.getItem('userName');
+                let params = {
+                    userName: userName,
+                };
+                this.$axios.post('/api/map/get_map', params)
+                    .then(res => {
+                    //登录成功
+                    console.log("data is:", res)
+                    this.tableData = [];
+                    let test_data = res.data;
+                    
+                    // for (let i = 0; i < res.data.data.length; ++i) {
+                    for (let i = 0; i < test_data.length; ++i) {
+                        this.tableData.push({
+                            province: test_data[i].province,
+                            name: test_data[i].name,
+                            date: test_data[i].date
+                        });
+                    }
+                }, err => {
+                    this.$message.error(err.message);
+                });
             },
             refresh() {
                 this.getProfile();
