@@ -24,13 +24,13 @@ router.post('/upload', upload.any(), function(req, res, next) {
 
     var des_file = "./uploads/" + req.files[0].originalname;
     fs.readFile( req.files[0].path, function (err, data) {
-        fs.writeFile(des_file, data, function (err) {
+        fs.writeFile(req.files[0].path, data, function (err) {
             if( err ){
                 console.log( err );
             }else{
                 response = {
                     message:'File uploaded successfully',
-                    filename:req.files[0].originalname
+                    filename:req.files[0].path
                 };
                 console.log( response );
                 res.end( JSON.stringify( response ) );
@@ -103,7 +103,7 @@ router.post('/new_map', (req, res) => {
 
 
     //Load file and get the file hash
-    var des_file = "./uploads/" + mapInfo.filename;
+    var des_file = mapInfo.filename;
     var file_content = fs.readFileSync(des_file, "utf8");
     var file_hash = sha256(file_content);
 
