@@ -7,12 +7,16 @@
                         <div slot="header" class="clearfix">
                             <span>块高度：</span><span>{{block.block_id}}</span>
                             <br><br>
-                            <span>头哈希：</span><span>{{block.head_hash}}</span>
+                            <div class="longhash"><span>头哈希：</span>{{block.head_hash}}</div>
                             <el-button style="float: right; padding: 3px 0" type="text">详情</el-button>
                         </div>
-                        <div v-for="o in 4" :key="o" class="text item">
-                            {{'申请记录 ' + o }}
-                        </div>
+                        <el-card v-for="content in block.content"  :key="o" class="box-card" style="width:400px;padding: 20px 20px 20px 20px">
+                            {{'省市: ' +  content.map_info.province}}<br><br>
+                            {{'区域: ' +  content.map_info.region}}<br><br>
+                            {{'地图文件名: ' +  content.map_info.name}}<br><br>
+                            <div class="longhash">{{'地图文件哈希: ' +  content.map_info.map_file_hash}}<br><br></div>
+                            {{'用户ID: ' +  content.user_info.userName}}<br><br>
+                        </el-card>
                     </el-card>
                 </el-timeline-item>
             </el-timeline>
@@ -73,5 +77,12 @@
 
     .box-card {
         width: 480px;
+    }
+    .longhash{
+        width: 200px;
+        display: block;
+        text-overflow: ellipsis;  /*超出内容用省略号*/
+        overflow: hidden; /*内容超出后隐藏*/
+        white-space: nowrap;
     }
 </style>

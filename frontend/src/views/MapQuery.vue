@@ -63,6 +63,7 @@
         },
         methods: {
             onSubmit() {
+                this.$message('查询中');
                 this.$axios
                     .get('/api/chain/querymap', {
                         params: {province: this.formInline.province, region:this.formInline.region}
