@@ -27,6 +27,54 @@ router.post('/login', function(req, res, next) {
 
 
 
+router.post('/user-info', function(req, res, next) {
+    
+    var userName  = req.param('userName');
+    let data = {}
+    if (userName == '619850002'){
+        data = {
+            id:     "619850002",
+            name:   "张天骏",
+            ID_card: "4107xxxxxxxxxxxxx",
+            gender:  'male',
+            birth_date: "1997.11.08",
+            address: "河南省新乡市牧野区解放路760厂家属院",
+            phone: "158xxxx1260",
+            card_number: "622xxxxxxxxxxxxxxxx",
+        };
+
+        res.send({
+            info:data,
+            status: "OK",
+        });
+
+    }else if (userName == '123456'){
+        data = {
+            id:     "123456",
+            name:   "梁博",
+            ID_card: "4107xxxxxxxxxxxxx",
+            gender:  'female',
+            birth_date: "1991.03.25",
+            address: "东北",
+            phone: "158xxxx1260",
+            card_number: "622xxxxxxxxxxxxxxxx",
+        };
+        res.send({
+            info:data,
+            status: "OK",
+        });
+    }
+    res.send({
+            info: data,
+            status: "Error",
+        });
+});
+
+
+
+
+
+
 //使用POST方法添加书籍
 router.post('/userpost', (req, res) => {
     const {error} = validateBook(req.body);
