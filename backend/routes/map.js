@@ -6,6 +6,7 @@ var chain = require('../chain')
 var multer = require('multer')
 
 var upload = multer({ dest: 'uploads/' })
+const sha256 = require('sha256');
 
 // router.post('/upload', upload.array('file',1), (req, res) => {
 // 	// res.json({
@@ -15,6 +16,7 @@ var upload = multer({ dest: 'uploads/' })
 // 		msg: "上传成功"
 // 	})
 // });
+
 
 
 router.post('/upload', upload.any(), function(req, res, next) {
@@ -38,37 +40,63 @@ router.post('/upload', upload.any(), function(req, res, next) {
 });
 
 
+function saveChainInfo(chainInfo){
+    chain.Add("mapInfo", chainInfo);
+}
+
+
 router.post('/new_map', (req, res) => {
 
 
-    mapInfo  = req.param('mapInfo');
-    userName = req.param('userName');
-
-    // name = req.param('name');
-    // province = req.param('province');
-    // region = req.param('region');
-    // filepath = req.param('filepath');
-    // filename = req.param('filename');
-    //0  未申请， 1 申请确认， 2 已确认
-    state = 0;
-
-    //Save to the MongoDB
-
-
-    // "chain", 
+    var mapInfo  = req.param('mapInfo');
+    var userName = req.param('userName');
     
-    // chainInfo = {   head_hash:hajd, block_id:1008,
-    //                 time_stamp:2019,
-    //                 father_hash:assad,  
-    //                 content:[{  user_info:{userid:xx, },
-    //                             map_info:{  province: province, 
-    //                                         area:region, 
-    //                                         name:name, 
-    //                                         map_file_location_encryption: filename}}]};
+
+    //get time stamp
+    var date = new Date().getTime().toString();
+
+    var allChainInfo = chain.All("mapInfo");
+
+    var father_hash = "";
+    const hash_date = date;
+    var head_hash = sha256(hash_date);
+    var block_id = 1;
+
+    if (allChainInfo == null){
+    }else{
+        block_id = allChainInfo.length+1;
+        var lastElement = allChainInfo[allChainInfo.length-1]
+        father_hash = lastElement.head_hash;
+    }
+    console.log('allChains: ', allChainInfo);
+
+
+    //Load file and get the file hash
+    var des_file = "./uploads/" + mapInfo.filename;
+    var file_content = fs.readFileSync(des_file, "utf8");
+    var file_hash = sha256(file_content);
+
+    console.log('file hash is: ', file_hash);
+    
+    var chainInfo = {   
+                    head_hash: head_hash, 
+                    block_id: block_id,
+                    time_stamp: date,
+                    father_hash: father_hash,  
+                    content:[
+                        { user_info:{userName: userName,},
+                          map_info:{province: mapInfo.province, 
+                                    region: mapInfo.region, 
+                                    name: mapInfo.name, 
+                                    map_file_location_encryption: mapInfo.filename,
+                                    map_file_hash: file_hash}}]};
+
+
+    saveChainInfo(chainInfo);
 
 
 
-    data = {
+    var data = {
         userName: userName,
         mapInfo: mapInfo,
     }
@@ -83,25 +111,6 @@ router.post('/new_map', (req, res) => {
 
 
 
-router.get('/test_map', (req, res) => {
-
-    // userId = req.param('id')
-    // name = req.param('name')
-    // position = req.param('position')
-    // path = req.param('path')
-
-    // const {error} = validateBook(req.body);
-    // if(error){
-    //     return res.status(400).json({msg: error.details[0].message}).end();
-    // }
-
-    // const book = {
-    //     id: books.length + 1,
-    //     name: req.body.name
-    // };
-    // books.push(book);
-    return res.json({msg: "successful!"}).end();
-});
 
 
 
