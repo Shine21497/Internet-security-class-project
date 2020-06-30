@@ -67,6 +67,13 @@ function todayTime() {
     return curtime;
 }
 
+
+
+function saveChainInfo(chainInfo){
+    console.log('Finish certification');
+    chain.Add("mapInfo", chainInfo);
+}
+
 router.post('/new_map', (req, res) => {
 
 
@@ -115,8 +122,9 @@ router.post('/new_map', (req, res) => {
                                     map_file_location_encryption: mapInfo.filename,
                                     map_file_hash: file_hash}}]};
 
-
-    saveChainInfo(chainInfo);
+    
+    setTimeout(saveChainInfo,10000, chainInfo);
+    // saveChainInfo(chainInfo);
 
 
 
@@ -130,9 +138,6 @@ router.post('/new_map', (req, res) => {
 });
 
 
-function saveChainInfo(chainInfo){
-    chain.Add("mapInfo", chainInfo);
-}
 
 
 router.post('/get_map', (req, res) => {
