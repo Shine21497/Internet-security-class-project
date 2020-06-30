@@ -9,6 +9,7 @@ import MyInfo from './views/MyInfo'
 import MyOwnPlatform from './views/MyOwnPlatform'
 import MyOwnClient from './views/MyOwnClient'
 import MyPlatform from './views/MyPlatform'
+import MyMap from './views/MyMap'
 import MyQueried from './views/MyQueried'
 import Query from './views/Query'
 import MyMerchant from './views/MyMerchant'
@@ -39,6 +40,7 @@ const router = new Router({
                 {path: '/my-info', name: 'MyInfo', component: MyInfo},
                 {path: '/my-own-platform', name: 'MyOwnPlatform', component: MyOwnPlatform},
                 {path: '/my-platform', name: 'MyPlatform', component: MyPlatform},
+                {path: '/my-map', name: 'MyMap', component: MyMap},
                 {path: '/my-queried', name: 'MyQueried', component: MyQueried},
                 {path: '/map-query', name: 'MapQuery', component: MapQuery},
                 {path: '/block-chain', name: 'BlockChainShow', component: BlockChainShow},

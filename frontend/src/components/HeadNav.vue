@@ -63,8 +63,8 @@
                 userType: 0,
                 leftBarMenu: [
                     {
-                        name: "我的借贷平台",
-                        link: "my-platform",
+                        name: "我维护的地图",
+                        link: "my-map",
                         icon: "el-icon-time"
                     }, {
                         name: "我的个人信息",
@@ -103,7 +103,7 @@
         },
         created() {
             this.userType = localStorage.getItem('userType') * 1;
-            this.Head = this.userType === 0 ? '借贷方' : this.userType === 1 ? '平台方' : '商户方';
+            this.Head = this.userType === 0 ? '用户' : this.userType === 1 ? '平台方' : '商户方';
         },
         methods: {
             handleSelect(key, keyPath) {
